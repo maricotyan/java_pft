@@ -2,8 +2,8 @@ package ru.stqa.pft.sandbox;
 
 public class Distance {
     public static void main (String[] args) {
-        Point p1 = new Point(2, 4);
-        Point p2 = new Point(1, 1);
+        Point p1 = new Point(4.9e-324,4.9e-324);
+        Point p2 = new Point(1.7e+308,1.7e+308);
 
         System.out.println("Расстояние между точками " + distance(p1, p2));
         System.out.println("Расстояние между точками " + p1.distance(p2));
