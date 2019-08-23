@@ -1,4 +1,4 @@
-package ru.stqa.pft.addressbook;
+package ru.stqa.pft.addressbook.tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
@@ -9,6 +9,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import ru.stqa.pft.addressbook.model.ContactDataGeneral;
+import ru.stqa.pft.addressbook.model.ContactDataPhone;
+import ru.stqa.pft.addressbook.model.ContactDataSecondary;
 
 import java.util.concurrent.TimeUnit;
 
