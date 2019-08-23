@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class HelperBase {
     WebDriver wd;
@@ -20,6 +21,11 @@ public class HelperBase {
         click(locator);
         wd.findElement(locator).clear();
         wd.findElement(locator).sendKeys(text);
+    }
+
+    protected void select(By locator, String text) {
+        click(locator);
+        new Select(wd.findElement(locator)).selectByVisibleText(text);
     }
 
     private boolean isElementPresent(By by) {
