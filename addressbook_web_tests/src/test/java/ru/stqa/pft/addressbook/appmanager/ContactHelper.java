@@ -13,7 +13,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void submitContactCreation() {
-        click(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Notes:'])[1]/following::input[1]"));
+        click(By.name("submit"));
     }
 
     public void fillContactFormGeneral(ContactDataGeneral contactDataGeneral) {
@@ -43,7 +43,19 @@ public class ContactHelper extends HelperBase {
         type(By.name("notes"), contactDataSecondary.getNote());
     }
 
-    public void gotoContactCreationPage() {
-        click(By.linkText("add new"));
+    public void editContact() {
+        click(By.xpath("//img[@alt='Edit']"));
+    }
+
+    public void submitContactModification() {
+        click(By.name("update"));
+    }
+
+    public void chooseContact() {
+        click(By.xpath("//tr[3]/td/input"));
+    }
+
+    public void deleteContact() {
+        click(By.xpath("//input[@value='Delete']"));
     }
 }
