@@ -2,6 +2,7 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactDataGeneral;
 import ru.stqa.pft.addressbook.model.ContactDataPhone;
 import ru.stqa.pft.addressbook.model.ContactDataSecondary;
@@ -16,7 +17,7 @@ public class ContactHelper extends HelperBase {
         click(By.name("submit"));
     }
 
-    public void fillContactFormGeneral(ContactDataGeneral contactDataGeneral) {
+    public void fillContactFormGeneral(ContactDataGeneral contactDataGeneral, boolean creation) {
         type(By.name("firstname"), contactDataGeneral.getFirstName());
         type(By.name("middlename"), contactDataGeneral.getMiddleName());
         type(By.name("lastname"), contactDataGeneral.getLastName());
@@ -28,7 +29,12 @@ public class ContactHelper extends HelperBase {
         select(By.name("bday"), contactDataGeneral.getBday());
         select(By.name("bmonth"), contactDataGeneral.getBmonth());
         type(By.name("byear"), contactDataGeneral.getByear());
-        select(By.name("new_group"), contactDataGeneral.getGroup());
+
+        if (creation){
+            select(By.name("new_group"), contactDataGeneral.getGroup());
+        } else {
+            Assert.assertFalse(isElementPresent(By.name("new_group")));
+        }
     }
 
     public void fillContactFormPhone(ContactDataPhone contactDataPhone) {
