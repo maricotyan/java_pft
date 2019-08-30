@@ -12,6 +12,6 @@ public class SessionHelper extends HelperBase {
     public void login(String admin, String secret) {
         type(By.name("user"), admin);
         type(By.name("pass"), secret);
-        click(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Password:'])[1]/following::input[2]"));
+        click(By.xpath("//input[@value='Login']"));
     }
 }
