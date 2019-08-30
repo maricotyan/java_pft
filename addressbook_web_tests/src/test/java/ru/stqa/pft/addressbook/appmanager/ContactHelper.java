@@ -3,9 +3,7 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import ru.stqa.pft.addressbook.model.ContactDataGeneral;
-import ru.stqa.pft.addressbook.model.ContactDataPhone;
-import ru.stqa.pft.addressbook.model.ContactDataSecondary;
+import ru.stqa.pft.addressbook.model.ContactData;
 
 public class ContactHelper extends HelperBase {
 
@@ -25,36 +23,31 @@ public class ContactHelper extends HelperBase {
         click(By.name("submit"));
     }
 
-    public void fillContactFormGeneral(ContactDataGeneral contactDataGeneral, boolean creation) {
-        type(By.name("firstname"), contactDataGeneral.getFirstName());
-        type(By.name("middlename"), contactDataGeneral.getMiddleName());
-        type(By.name("lastname"), contactDataGeneral.getLastName());
-        type(By.name("nickname"), contactDataGeneral.getNickName());
-        type(By.name("title"), contactDataGeneral.getTitle());
-        type(By.name("company"), contactDataGeneral.getCompany());
-        type(By.name("address"), contactDataGeneral.getAddress());
-        type(By.name("email"), contactDataGeneral.getEmail());
-        select(By.name("bday"), contactDataGeneral.getBday());
-        select(By.name("bmonth"), contactDataGeneral.getBmonth());
-        type(By.name("byear"), contactDataGeneral.getByear());
+    public void fillContactForm(ContactData contactData, boolean creation) {
+        type(By.name("firstname"), contactData.getFirstName());
+        type(By.name("middlename"), contactData.getMiddleName());
+        type(By.name("lastname"), contactData.getLastName());
+        type(By.name("nickname"), contactData.getNickName());
+        type(By.name("title"), contactData.getTitle());
+        type(By.name("company"), contactData.getCompany());
+        type(By.name("address"), contactData.getAddress());
+        type(By.name("email"), contactData.getEmail());
+        select(By.name("bday"), contactData.getBday());
+        select(By.name("bmonth"), contactData.getBmonth());
+        type(By.name("byear"), contactData.getByear());
 
         if (creation){
-            select(By.name("new_group"), contactDataGeneral.getGroup());
+            select(By.name("new_group"), contactData.getGroup());
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
-    }
 
-    public void fillContactFormPhone(ContactDataPhone contactDataPhone) {
-        type(By.name("home"), contactDataPhone.getHome());
-        type(By.name("mobile"), contactDataPhone.getMobile());
-        type(By.name("work"), contactDataPhone.getWork());
-    }
-
-    public void fillContactFormSecondary(ContactDataSecondary contactDataSecondary) {
-        type(By.name("address2"), contactDataSecondary.getAddressSec());
-        type(By.name("phone2"), contactDataSecondary.getHomeSec());
-        type(By.name("notes"), contactDataSecondary.getNote());
+        type(By.name("home"), contactData.getHome());
+        type(By.name("mobile"), contactData.getMobile());
+        type(By.name("work"), contactData.getWork());
+        type(By.name("address2"), contactData.getAddressSec());
+        type(By.name("phone2"), contactData.getHomeSec());
+        type(By.name("notes"), contactData.getNote());
     }
 
     public void editContact() {
@@ -73,9 +66,9 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//input[@value='Delete']"));
     }
 
-    public void liteContactCreate(ContactDataGeneral contactDataGeneral, boolean creation) {
+    public void lightContactCreate(ContactData contactData, boolean creation) {
         initContactCreation();
-        type(By.name("firstname"), contactDataGeneral.getFirstName());
+        type(By.name("firstname"), contactData.getFirstName());
         submitContactCreation();
     }
 
