@@ -3,9 +3,7 @@ package ru.stqa.pft.addressbook.model;
 import java.util.Objects;
 
 public class ContactData {
-    protected final String home;
-    protected final String mobile;
-    protected final String work;
+    private Integer id;
     private final String firstName;
     private final String middleName;
     private final String lastName;
@@ -18,11 +16,15 @@ public class ContactData {
     private final String bmonth;
     private final String byear;
     private final String group;
+    protected final String home;
+    protected final String mobile;
+    protected final String work;
     private final String addressSec;
     private final String homeSec;
     private final String note;
 
     public ContactData(String firstName, String middleName, String lastName, String nickName, String title, String company, String address, String email, String bday, String bmonth, String byear, String group, String home, String mobile, String work, String addressSec, String homeSec, String note) {
+        this.id = Integer.MAX_VALUE;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -41,6 +43,32 @@ public class ContactData {
         this.addressSec = addressSec;
         this.homeSec = homeSec;
         this.note = note;
+    }
+
+    public ContactData(Integer id, String firstName, String middleName, String lastName, String nickName, String title, String company, String address, String email, String bday, String bmonth, String byear, String group, String home, String mobile, String work, String addressSec, String homeSec, String note) {
+        this.id = id;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.nickName = nickName;
+        this.title = title;
+        this.company = company;
+        this.address = address;
+        this.email = email;
+        this.bday = bday;
+        this.bmonth = bmonth;
+        this.byear = byear;
+        this.group = group;
+        this.home = home;
+        this.mobile = mobile;
+        this.work = work;
+        this.addressSec = addressSec;
+        this.homeSec = homeSec;
+        this.note = note;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getFirstName() {
@@ -115,6 +143,19 @@ public class ContactData {
         return note;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,13 +168,5 @@ public class ContactData {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName);
-    }
-
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
     }
 }
