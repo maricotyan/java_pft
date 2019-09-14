@@ -12,9 +12,9 @@ public class ContactModify extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions () {
-        ContactData contact = new ContactData("firstName", null, null, null, null, null, null, null, "18", "October", "1000", "testName1",null, null, null,null, null, null);
         if (app.contact().list().size() == 0){
-            app.contact().lightCreate(contact, false);
+            app.contact().create(new ContactData()
+                            .withFirstName("firstName").withBday("18").withBmonth("October").withByear("1000").withGroup("testName1"));
             app.goTo().HomePage();
         }
     }
@@ -24,7 +24,8 @@ public class ContactModify extends TestBase {
         List<ContactData> before = app.contact().list();
         int index = before.size() - 1;
         app.contact().edit(index);
-        ContactData contactModified = new ContactData("firstNameModified", null, "lastNameModified", null, null, null, null, null, "18", "October", "1000", "testName1", "777777", "+77777777777", "+70000000000",null, null, null);
+        ContactData contactModified = new ContactData()
+                .withFirstName("firstNameModified").withLastName("lastNameModified").withBday("18").withBmonth("October").withByear("1000").withGroup("testName1").withMobile("+70000000000");
         app.contact().fillForm(contactModified, false);
         app.contact().submitModification();
         app.goTo().HomePage();
