@@ -18,40 +18,48 @@ public class GroupHelper extends HelperBase {
         click(By.linkText("group page"));
     }
 
-    public void submitGroupCreation() {
+    public void submitCreation() {
         click(By.name("submit"));
     }
 
-    public void fillGroupForm(GroupData groupData) {
+    public void fillForm(GroupData groupData) {
         type(By.name("group_name"), groupData.getName());
         type(By.name("group_header"), groupData.getHeader());
         type(By.name("group_footer"), groupData.getFooter());
     }
 
-    public void initGroupCreation() {
+    public void initCreation() {
         click(By.name("new"));
     }
 
-    public void deleteSelectedGroups() {
+    public void delete() {
         click(By.xpath("//div[@id='content']/form/input[5]"));
     }
 
-    public void selectGroup(int index) {
+    public void select(int index) {
         wd.findElements(By.name("selected[]")).get(index).click();
     }
 
-    public void initGroupModification() {
+    public void initModification() {
         click(By.name("edit"));
     }
 
-    public void submitGroupModification() {
+    public void submitModification() {
         click(By.name("update"));
     }
 
-    public void createGroup(GroupData groupData) {
-        initGroupCreation();
-        fillGroupForm(groupData);
-        submitGroupCreation();
+    public void create(GroupData groupData) {
+        initCreation();
+        fillForm(groupData);
+        submitCreation();
+        returnToGroupPage();
+    }
+
+    public void modify(int index, GroupData group) {
+        select(index);
+        initModification();
+        fillForm(group);
+        submitModification();
         returnToGroupPage();
     }
 
@@ -63,7 +71,7 @@ public class GroupHelper extends HelperBase {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<GroupData> getGroupList() {
+    public List<GroupData> list() {
         List<GroupData> groups = new ArrayList<GroupData>();
         List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
         for (WebElement element : elements) {

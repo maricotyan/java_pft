@@ -15,7 +15,7 @@ public class ContactHelper extends HelperBase {
         super(wd);
     }
 
-    public void initContactCreation() {
+    public void initCreation() {
         if (isElementPresent(By.tagName("h1"))
                 && wd.findElement(By.tagName("h1")).getText().equals("Edit / add address book entry")) {
             return;
@@ -23,11 +23,11 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void submitContactCreation() {
+    public void submitCreation() {
         click(By.name("submit"));
     }
 
-    public void fillContactForm(ContactData contactData, boolean creation) {
+    public void fillForm(ContactData contactData, boolean creation) {
         type(By.name("firstname"), contactData.getFirstName());
         type(By.name("middlename"), contactData.getMiddleName());
         type(By.name("lastname"), contactData.getLastName());
@@ -54,33 +54,45 @@ public class ContactHelper extends HelperBase {
         type(By.name("notes"), contactData.getNote());
     }
 
-    public void editContact(int index) {
+    public void edit(int index) {
         wd.findElements(By.xpath(".//img[@alt='Edit']")).get(index).click();
     }
 
-    public void submitContactModification() {
+    public void submitModification() {
         click(By.name("update"));
     }
 
-    public void chooseContact(int index) {
+    public void choose(int index) {
         wd.findElements(By.name("selected[]")).get(index).click();
     }
 
-    public void deleteContact() {
+    public void delete() {
         click(By.xpath("//input[@value='Delete']"));
     }
 
-    public void lightContactCreate(ContactData contactData, boolean creation) {
-        initContactCreation();
+    public void create(ContactData contact) {
+        initCreation();
+        fillForm(contact, true);
+        submitCreation();
+    }
+
+    public void lightCreate(ContactData contactData, boolean creation) {
+        initCreation();
         type(By.name("firstname"), contactData.getFirstName());
-        submitContactCreation();
+        submitCreation();
+    }
+
+    public void delete(int index) {
+        choose(index);
+        delete();
+        closeAlert();
     }
 
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
         List<ContactData> contacts = new ArrayList<ContactData>();
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for (WebElement element : elements) {
