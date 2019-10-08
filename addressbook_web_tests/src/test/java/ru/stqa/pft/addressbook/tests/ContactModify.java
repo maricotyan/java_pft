@@ -1,12 +1,12 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactModify extends TestBase {
 
@@ -21,21 +21,17 @@ public class ContactModify extends TestBase {
 
     @Test
     public void testGroupModify() {
-        List<ContactData> before = app.contact().list();
-        int index = before.size() - 1;
-        app.contact().edit(index);
-        ContactData contactModified = new ContactData()
-                .withFirstName("firstNameModified").withLastName("lastNameModified").withBday("18").withBmonth("October").withByear("1000").withGroup("testName1").withMobile("+70000000000");
-        app.contact().fillForm(contactModified, false);
+        Contacts before = app.contact().all();
+        ContactData modifiedContact = before.iterator().next();
+        app.contact().modify(modifiedContact.getId());
+        ContactData contact = new ContactData()
+                .withId(modifiedContact.getId()).withFirstName("firstNameModified").withLastName("lastNameModified").withBday("18").withBmonth("October").withByear("1000").withGroup("testName1").withMobile("+70000000000");
+        app.contact().fillForm(contact, false);
         app.contact().submitModification();
         app.goTo().HomePage();
+       Contacts after = app.contact().all();
 
-        before.remove(index);
-        before.add(contactModified);
-        List<ContactData> after = app.contact().list();
-        Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-        before.sort(byId);
-        after.sort(byId);
-        Assert.assertEquals(before, after);
+        assertThat(after.size(), equalTo(before.size()));
+        assertThat(after, equalTo(before.withModified(modifiedContact, contact)));
     }
 }
