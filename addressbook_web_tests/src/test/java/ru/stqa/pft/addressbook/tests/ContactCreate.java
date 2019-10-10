@@ -17,9 +17,8 @@ public class ContactCreate extends TestBase {
             .withBday("18").withBmonth("October").withByear("1000").withGroup("testName1").withHome("777777").withMobile("+77777777777").withWork("+70000000000").withAddressSec("addressSec").withHomeSec("homeSec").withNote("note");
     app.contact().create(contact);
     app.goTo().HomePage();
+    assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.contact().all();
-
-    assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }

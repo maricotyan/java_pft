@@ -22,6 +22,7 @@ public class ContactData {
     private String addressSec;
     private String homeSec;
     private String note;
+    private String allPhones;
 
     public Integer getId() { return id; }
 
@@ -53,9 +54,7 @@ public class ContactData {
         return address;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
     public String getBday() {
         return bday;
@@ -95,6 +94,10 @@ public class ContactData {
 
     public String getNote() {
         return note;
+    }
+
+    public String getAllPhones() {
+        return allPhones;
     }
 
     public ContactData withId(Integer id) {
@@ -189,6 +192,11 @@ public class ContactData {
 
     public ContactData withNote(String note) {
         this.note = note;
+        return this;
+    }
+
+    public ContactData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
         return this;
     }
 
