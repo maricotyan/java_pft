@@ -13,8 +13,10 @@ public class ContactCreate extends TestBase {
   public void testContactCreate() throws Exception {
     Contacts before = app.contact().all();
     ContactData contact = new ContactData()
-            .withFirstName("firstName").withMiddleName("middleName").withLastName("LastName").withNickName("nickName").withTitle("title").withCompany("company").withAddress("address").withEmail("test@test.test")
-            .withBday("18").withBmonth("October").withByear("1000").withGroup("testName1").withHome("777777").withMobile("+77777777777").withWork("+70000000000").withAddressSec("addressSec").withHomeSec("homeSec").withNote("note");
+            .withFirstName("firstName").withMiddleName("middleName").withLastName("LastName").withNickName("nickName").withTitle("title")
+            .withCompany("company").withAddress("address").withEmail("test@test.test").withEmail2("123@test.test").withEmail3("")
+            .withBday("18").withBmonth("October").withByear("1000").withGroup("testName1")
+            .withHome("777777").withMobile("+77777777777").withWork("+70000000000").withAddressSec("addressSec").withHomeSec("homeSec").withNote("note");
     app.contact().create(contact);
     app.goTo().HomePage();
     assertThat(app.contact().count(), equalTo(before.size() + 1));

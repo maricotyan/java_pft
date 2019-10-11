@@ -6,12 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
-import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -40,6 +37,8 @@ public class ContactHelper extends HelperBase {
         type(By.name("company"), contactData.getCompany());
         type(By.name("address"), contactData.getAddress());
         type(By.name("email"), contactData.getEmail());
+        type(By.name("email2"), contactData.getEmail2());
+        type(By.name("email3"), contactData.getEmail3());
         select(By.name("bday"), contactData.getBday());
         select(By.name("bmonth"), contactData.getBmonth());
         type(By.name("byear"), contactData.getByear());
@@ -144,10 +143,10 @@ public class ContactHelper extends HelperBase {
             String lastName = element.findElement(By.xpath(".//td[2]")).getAttribute("textContent");
             String allPhones = element.findElement(By.xpath(".//td[6]")).getAttribute("textContent");
             String address = element.findElement(By.xpath(".//td[4]")).getAttribute("textContent");
-            String email = element.findElement(By.xpath(".//td[5]")).getAttribute("textContent");
+            String allEmails = element.findElement(By.xpath(".//td[5]")).getAttribute("textContent");
             Integer id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             contactCache.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName).withAllPhones(allPhones)
-                                              .withAddress(address).withEmail(email));
+                                              .withAddress(address).withAllEmail(allEmails));
         }
         return new Contacts(contactCache);
     }
@@ -158,12 +157,15 @@ public class ContactHelper extends HelperBase {
         String lastName = wd.findElement(By.name("lastname")).getAttribute("value");
         String address = wd.findElement(By.name("address")).getAttribute("value");
         String email = wd.findElement(By.name("email")).getAttribute("value");
+        String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+        String email3 = wd.findElement(By.name("email3")).getAttribute("value");
         String home = wd.findElement(By.name("home")).getAttribute("value");
         String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
         String work = wd.findElement(By.name("work")).getAttribute("value");
 
         return new ContactData().withId(contact.getId()).withFirstName(firstName).withLastName(lastName)
-                .withAddress(address).withEmail(email).withHome(home).withMobile(mobile).withWork(work);
+                .withAddress(address).withEmail(email).withEmail(email2).withEmail(email3)
+                .withHome(home).withMobile(mobile).withWork(work);
     }
 
     public void initContactModificationById(int id) {
