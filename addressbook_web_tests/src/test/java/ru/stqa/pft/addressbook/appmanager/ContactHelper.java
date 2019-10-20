@@ -84,10 +84,14 @@ public class ContactHelper extends HelperBase {
         submitCreation();
     }
 
-    public void lightCreate(ContactData contactData, boolean creation) {
+    public void lightCreate(ContactData contactData) {
         initCreation();
         type(By.name("firstname"), contactData.getFirstName());
+        type(By.name("lastname"), contactData.getLastName());
+        // добавить проверку наличия группы
+        select(By.name("new_group"), contactData.getGroup());
         submitCreation();
+        contactCache = null;
     }
 
     public void delete(int index) {
