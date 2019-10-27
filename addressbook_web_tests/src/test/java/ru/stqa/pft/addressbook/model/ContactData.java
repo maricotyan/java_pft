@@ -1,38 +1,99 @@
 package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.Objects;
 
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
+
+    @Id
+    @Column(name = "id")
     private Integer id = Integer.MAX_VALUE;
+
     @Expose
+    @Column(name = "firstName")
     private String firstName;
+
+    @Column(name = "middleName")
     private String middleName;
+
     @Expose
+    @Column(name = "lastName")
     private String lastName;
+
+    @Transient
     private String nickName;
+
+    @Transient
     private String title;
+
+    @Transient
     private String company;
+
+    @Column(name = "address")
+    @Type(type = "text")
     private String address;
+
+    @Column(name = "email")
+    @Type(type = "text")
     private String email;
+
+    @Column(name = "email2")
+    @Type(type = "text")
     private String email2;
+
+    @Column(name = "email3")
+    @Type(type = "text")
     private String email3;
+
+    @Transient
     private String bday;
+
+    @Transient
     private String bmonth;
+
+    @Transient
     private String byear;
+
     @Expose
+    @Transient
     private String group;
+
+    @Column(name = "home")
+    @Type(type = "text")
     protected String home;
+
+    @Column(name = "mobile")
+    @Type(type = "text")
     protected String mobile;
+
+    @Column(name = "work")
+    @Type(type = "text")
     protected String work;
+
+    @Transient
     private String addressSec;
+
+    @Transient
     private String homeSec;
+
+    @Transient
     private String note;
+
+    @Transient
     private String allPhones;
+
+    @Transient
     private String allEmails;
-    private File photo;
+
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
 
     public Integer getId() { return id; }
 
@@ -116,7 +177,12 @@ public class ContactData {
 
     public String getAllEmails() { return allEmails; }
 
-    public File getPhoto() { return photo; }
+    public File getPhoto() {
+        if (photo != null) {
+            return new File(photo);
+        }
+        return null;
+}
 
     public ContactData withId(Integer id) {
         this.id = id;
@@ -234,7 +300,7 @@ public class ContactData {
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
 

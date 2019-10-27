@@ -15,7 +15,7 @@ public class ContactInfoCheck extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions () {
-        if (app.contact().all().size() == 0){
+        if (app.db().contacts().size() == 0){
             app.contact().create(new ContactData()
                     .withFirstName("firstName").withBday("18").withBmonth("October").withByear("1000").withGroup("testName1")
                     .withAddress("address,\n" + "building,\n" + "41-11")
