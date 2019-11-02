@@ -14,7 +14,7 @@ public class ContactDelete extends TestBase {
     public void ensurePreconditions () {
         if (app.db().contacts().size() == 0) {
             app.contact().create(new ContactData()
-                    .withFirstName("firstName").withBday("18").withBmonth("October").withByear("1000").withGroup("testName1"));
+                    .withFirstName("firstName").withBday("18").withBmonth("October").withByear("1000"));
             app.goTo().HomePage();
         }
     }
@@ -28,5 +28,6 @@ public class ContactDelete extends TestBase {
         assertThat(app.contact().count(), equalTo(before.size() - 1));
         Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.without(deletedContact)));
+        verifyContactListInUI();
     }
 }

@@ -17,7 +17,7 @@ public class ContactInfoCheck extends TestBase {
     public void ensurePreconditions () {
         if (app.db().contacts().size() == 0){
             app.contact().create(new ContactData()
-                    .withFirstName("firstName").withBday("18").withBmonth("October").withByear("1000").withGroup("testName1")
+                    .withFirstName("firstName").withBday("18").withBmonth("October").withByear("1000")
                     .withAddress("address,\n" + "building,\n" + "41-11")
                     .withEmail("test_test@test.test").withEmail2("123@test.test").withEmail3("")
                     .withHome("77-77-77").withMobile("+77777777777").withWork("8 000 000 0000"));

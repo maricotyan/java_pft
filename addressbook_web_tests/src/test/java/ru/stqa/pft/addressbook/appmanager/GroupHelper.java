@@ -93,4 +93,10 @@ public class GroupHelper extends HelperBase {
         }
         return new Groups(groupCache);
     }
+
+    public Groups allFromDb() {
+        DbHelper db = new DbHelper();
+        Groups groups = db.groups();
+        return groups;
+    }
 }
