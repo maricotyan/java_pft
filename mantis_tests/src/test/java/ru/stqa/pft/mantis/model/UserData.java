@@ -25,11 +25,11 @@ public class UserData {
 
     public Integer getId() { return id; }
 
-    public String username() { return username; }
+    public String getName() { return username; }
 
-    public String email() { return email; }
+    public String getEmail() { return email; }
 
-    public String password() { return password; }
+    public String getPassword() { return password; }
 
     public UserData withId(Integer id) {
         this.id = id;

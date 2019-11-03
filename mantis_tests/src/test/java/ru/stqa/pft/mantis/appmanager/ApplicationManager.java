@@ -22,6 +22,7 @@ public class ApplicationManager {
     private MailHelper mailHelper;
     private DbHelper dbHelper;
     private UserHelper userHelper;
+    private AdminHelper adminHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -32,7 +33,6 @@ public class ApplicationManager {
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
         dbHelper = new DbHelper();
-        userHelper = new UserHelper(this);
     }
 
     public void stop() {
@@ -87,6 +87,12 @@ public class ApplicationManager {
 
     public DbHelper db () { return dbHelper; }
 
-    public UserHelper userHelper () { return userHelper; }
+    public UserHelper userHelper () {
+        if (userHelper == null) {
+            userHelper = new UserHelper(this);
+        }
+        return userHelper;
+    }
 
+    public AdminHelper adminHelper () { return adminHelper; }
 }

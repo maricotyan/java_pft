@@ -19,6 +19,9 @@ public class ResetPasswordByAdminTest extends TestBase {
     protected String user;
     protected String password;
     protected String email;
+    protected Users allUsers;
+    protected UserData adminUser;
+    protected UserData userWithoutAdmin;
 
     @BeforeMethod
     public void startMailServer() {
@@ -27,11 +30,11 @@ public class ResetPasswordByAdminTest extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions() throws IOException, MessagingException {
-        Users allUsers = app.db().users();
-        UserData adminUser = app.userHelper().chooseFromDbById(1, allUsers);
-        Users usersWithoutAdmin = app.userHelper().getUsersWithoutAdmin(allUsers, adminUser);
+        allUsers = app.db().users();
+        adminUser = app.userHelper().chooseFromDbById(1, allUsers);
+        userWithoutAdmin = app.userHelper().getSomeUser(allUsers, adminUser);
 
-        if (usersWithoutAdmin.size() == 0) {
+        if (userWithoutAdmin == null) {
             Long now = System.currentTimeMillis();
             user = String.format("user%s", now);
             password = "password";
@@ -40,6 +43,7 @@ public class ResetPasswordByAdminTest extends TestBase {
             List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
             String confirmationLink = findConfirmationLinc(mailMessages, email);
             app.registration().finish(confirmationLink, password);
+            userWithoutAdmin = app.userHelper().getSomeUser(allUsers, adminUser);
             assertTrue(app.newSession().login(user, password));
         }
     }
@@ -47,14 +51,26 @@ public class ResetPasswordByAdminTest extends TestBase {
     @Test
     public void testResetPasswordByAdminTest() throws IOException, MessagingException {
         HttpSession session = app.newSession();
+        app.userHelper().login("administrator", "root");
         assertTrue(session.login("administrator", "root"));
         assertTrue(session.isLoggedInAs("administrator"));
 
-        Users allUsers = app.db().users();
-        UserData adminUser = app.userHelper().chooseFromDbById(1, allUsers);
-        Users usersWithoutAdmin = app.userHelper().getUsersWithoutAdmin(allUsers, adminUser);
-        UserData userToResetPass = usersWithoutAdmin.iterator().next();
-        System.out.println(userToResetPass);
+        UserData userToResetPass = userWithoutAdmin;
+        System.out.println("!!!!!!!!!!!!!!debug!!!!!!!!!!!!!! " + userToResetPass);
+        app.adminHelper().resetUsersPass(userToResetPass.getName());
+        app.userHelper().logout();
+
+        List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
+        email = userToResetPass.getEmail();
+        System.out.println(email);
+        String confirmationLink = findConfirmationLinc(mailMessages, email);
+        String userName = userToResetPass.getName();
+        String newPass = "pass";
+
+        app.userHelper().setNewPassByLink(confirmationLink, userName, newPass);
+
+        assertTrue(session.login(userName, newPass));
+        assertTrue(session.isLoggedInAs(userName));
     }
 
     private String findConfirmationLinc(List<MailMessage> mailMessages, String email) {

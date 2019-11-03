@@ -1,5 +1,6 @@
 package ru.stqa.pft.mantis.appmanager;
 
+import org.openqa.selenium.By;
 import ru.stqa.pft.mantis.model.UserData;
 import ru.stqa.pft.mantis.model.Users;
 
@@ -22,13 +23,33 @@ public class UserHelper extends HelperBase{
         return null;
     }
 
-    public Users getUsersWithoutAdmin(Users allUsers, UserData adminUser) {
-        Users users = null;
+    public UserData getSomeUser (Users allUsers, UserData adminUser) {
+        UserData someUser = null;
         for (UserData user: allUsers) {
             if (user != adminUser) {
-                users.add(user);
+                System.out.println(user);
+                someUser = user;
             }
         }
-        return users;
+        return someUser;
+    }
+
+    public void setNewPassByLink (String confirmationLink, String name, String password) {
+        wd.get(confirmationLink);
+        type(By.name("realname"),name);
+        type(By.name("password"), password);
+        type(By.name("password_confirm"), password);
+        click(By.cssSelector("button[type='submit']"));
+    }
+
+    public void login(String username, String password) {
+        type(By.name("username"), username);
+        wd.findElement(By.xpath("//input[2]")).click();
+        type(By.name("password"), password);
+        wd.findElement(By.xpath("//input[3]")).click();
+    }
+    public void logout() {
+        wd.findElement(By.cssSelector("span.user-info")).click();
+        wd.findElement(By.linkText("Выход")).click();
     }
 }
