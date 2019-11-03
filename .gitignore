@@ -14,4 +14,5 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 *.log
-addressbook_web_tests/build/tmp/*
+addressbook_web_tests/build/*
+mantis_tests/build/*

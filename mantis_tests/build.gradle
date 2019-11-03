@@ -14,6 +14,7 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpcomponents-client:4.5.10'
     implementation 'ch.qos.logback:logback-classic:1.3.0-alpha4'
     implementation 'org.hibernate:hibernate-core:5.4.7.Final'
+    implementation 'mysql:mysql-connector-java:8.0.18'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
     }
 

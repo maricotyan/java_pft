@@ -12,26 +12,57 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactAddToGroup extends TestBase {
 
+    private Contacts allContacts;
+    private ContactData contact = null;
+    private Groups allGroups;
+    private GroupData group = null;
+    private Groups contactGroups = null;
+
     @BeforeMethod
     public void ensurePreconditions() {
-        if (app.db().groups().size() == 0) {
-            app.goTo().GroupPage();
-            app.group().create(new GroupData().withName("testName1").withHeader("testHeader1"));
+        allContacts = app.db().contacts();
+        allGroups = app.db().groups();
+
+        if (allGroups.size() == 0) {
+            groupCreate();
         }
 
-        if (app.db().contacts().size() == 0) {
-            app.contact().create(new ContactData()
-                    .withFirstName("firstName").withBday("18").withBmonth("October").withByear("1000"));
-            app.goTo().HomePage();
+        if (allContacts.size() == 0) {
+            contactCreate();
         }
+
+        for (ContactData someContact:allContacts) {
+            contactGroups = someContact.getGroups();
+            if (contactGroups.size() < allGroups.size()) {
+                allGroups.removeAll(contactGroups);
+                contact = someContact;
+                break;
+            }
+        }
+
+        if (contact == null) {
+            contactCreate();
+        }
+    }
+
+    private void contactCreate() {
+        contact = new ContactData()
+                .withFirstName("firstName").withBday("18").withBmonth("October").withByear("1000");
+        app.contact().create(contact);
+        app.goTo().HomePage();
+    }
+
+    private void groupCreate() {
+        app.goTo().GroupPage();
+        group = new GroupData().withName("testName1").withHeader("testHeader1");
+        app.group().create(group);
     }
 
     @Test
     public void testAddContactToGroup() {
         Contacts contactsBefore = app.db().contacts();
-        Groups groups = app.db().groups();
-        GroupData newGroup = groups.iterator().next();
-        ContactData contactBefore = contactsBefore.iterator().next();
+        GroupData newGroup = allGroups.iterator().next();
+        ContactData contactBefore = contact;
         Groups groupsBefore = contactBefore.getGroups();
         app.contact().addToGroup(contactBefore, newGroup);
         app.goTo().HomePage();
