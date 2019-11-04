@@ -94,5 +94,10 @@ public class ApplicationManager {
         return userHelper;
     }
 
-    public AdminHelper adminHelper () { return adminHelper; }
+    public AdminHelper adminHelper () {
+        if (adminHelper == null) {
+            adminHelper = new AdminHelper(this);
+    }
+        return adminHelper;
+    }
 }

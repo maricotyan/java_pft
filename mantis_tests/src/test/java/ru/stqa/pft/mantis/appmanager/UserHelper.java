@@ -49,7 +49,6 @@ public class UserHelper extends HelperBase{
         wd.findElement(By.xpath("//input[3]")).click();
     }
     public void logout() {
-        wd.findElement(By.cssSelector("span.user-info")).click();
-        wd.findElement(By.linkText("Выход")).click();
+        wd.get(app.getProperty("web.baseUrl") + "/logout_page.php");
     }
 }

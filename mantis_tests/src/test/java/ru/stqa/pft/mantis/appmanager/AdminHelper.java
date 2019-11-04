@@ -10,11 +10,10 @@ public class AdminHelper extends HelperBase{
     }
 
     public void resetUsersPass (String username) throws IOException {
-//        wd.get(app.getProperty("web.baseUrl") + "/manage_user_page.php");
-        wd.findElement(By.linkText("Управление")).click();
-        wd.findElement(By.linkText("Управление пользователями")).click();
+        wd.get(app.getProperty("web.baseUrl") + "/manage_user_page.php");
+//        wd.findElement(By.linkText("Управление")).click();
+//        wd.findElement(By.linkText("Управление пользователями")).click();
         wd.findElement(By.linkText(username)).click();
-        wd.findElement(By.xpath("//input[@value='Сбросить пароль']")).click();
+        wd.findElement(By.xpath("//form[@id='manage-user-reset-form']/fieldset/span/input")).click();
     }
-
 }
