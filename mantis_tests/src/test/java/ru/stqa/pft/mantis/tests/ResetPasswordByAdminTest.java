@@ -2,6 +2,7 @@ package ru.stqa.pft.mantis.tests;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.appmanager.HttpSession;
@@ -28,7 +29,7 @@ public class ResetPasswordByAdminTest extends TestBase {
         app.mail().start();
     }
 
-    @BeforeMethod
+    @BeforeTest
     public void ensurePreconditions() throws IOException, MessagingException {
         allUsers = app.db().users();
         adminUser = app.userHelper().chooseFromDbById(1, allUsers);
@@ -40,7 +41,9 @@ public class ResetPasswordByAdminTest extends TestBase {
             password = "password";
             email = String.format("user%s@localhost.localdomain", now);
             app.registration().start(user, email);
-            List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
+
+            List<MailMessage> mailMessages = app.mail().waitForMail(2, 100000);
+            System.out.println("!!!!!!!!!!!!!!debug!!!!!!!!!!!!!! " + mailMessages);
             String confirmationLink = findConfirmationLinc(mailMessages, email);
             app.registration().finish(confirmationLink, password);
             userWithoutAdmin = app.userHelper().getSomeUser(allUsers, adminUser);
