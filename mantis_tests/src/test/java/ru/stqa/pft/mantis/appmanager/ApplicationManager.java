@@ -23,6 +23,7 @@ public class ApplicationManager {
     private DbHelper dbHelper;
     private UserHelper userHelper;
     private AdminHelper adminHelper;
+    private SoapHelper soap;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -99,5 +100,12 @@ public class ApplicationManager {
             adminHelper = new AdminHelper(this);
     }
         return adminHelper;
+    }
+
+    public SoapHelper soap () {
+        if (soap == null) {
+            soap = new SoapHelper(this);
+        }
+        return soap;
     }
 }
