@@ -31,6 +31,8 @@ public class ResetPasswordByAdminTest extends TestBase {
 
     @BeforeTest
     public void ensurePreconditions() throws IOException, MessagingException {
+        app.mail().start();
+
         allUsers = app.db().users();
         adminUser = app.userHelper().chooseFromDbById(1, allUsers);
         userWithoutAdmin = app.userHelper().getSomeUser(allUsers, adminUser);
@@ -43,12 +45,14 @@ public class ResetPasswordByAdminTest extends TestBase {
             app.registration().start(user, email);
 
             List<MailMessage> mailMessages = app.mail().waitForMail(2, 100000);
-            System.out.println("!!!!!!!!!!!!!!debug!!!!!!!!!!!!!! " + mailMessages);
             String confirmationLink = findConfirmationLinc(mailMessages, email);
-            app.registration().finish(confirmationLink, password);
+            app.registration().finish(confirmationLink, user, password);
+            allUsers = app.db().users();
             userWithoutAdmin = app.userHelper().getSomeUser(allUsers, adminUser);
             assertTrue(app.newSession().login(user, password));
         }
+
+        app.mail().stop();
     }
 
     @Test
@@ -59,7 +63,6 @@ public class ResetPasswordByAdminTest extends TestBase {
         assertTrue(session.isLoggedInAs("administrator"));
 
         UserData userToResetPass = userWithoutAdmin;
-        System.out.println("!!!!!!!!!!!!!!debug!!!!!!!!!!!!!! " + userToResetPass);
         app.adminHelper().resetUsersPass(userToResetPass.getName());
         app.userHelper().logout();
 
